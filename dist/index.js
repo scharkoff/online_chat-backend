@@ -8,7 +8,19 @@ const http_1 = __importDefault(require("http"));
 const socket_io_1 = require("socket.io");
 const app = (0, express_1.default)();
 const server = http_1.default.createServer(app);
-const io = new socket_io_1.Server(server);
+const io = new socket_io_1.Server(server, {
+    cors: { origin: 'http://localhost:4001', methods: ['GET', 'POST', 'DELETE'] }
+});
+app.get('/rooms', (req, res) => {
+    console.log(req.body);
+    return res.send('Вернул комнаты');
+});
+io.on('connection', (socket) => {
+    console.log('user connected: ', socket.id);
+    io.on('disconnect', (socket) => {
+        console.log(socket.id, ' has disconnect');
+    });
+});
 server.listen(4000, () => {
-    console.log("Server started on port 4000...");
+    console.log('Server started on port 4000...');
 });
