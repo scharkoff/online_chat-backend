@@ -39,9 +39,11 @@ app.post('/rooms', (req: express.Request, res: express.Response) => {
   if (!rooms.has(roomId)) {
     rooms.set(
       roomId,
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
       new Map([
         ['users', new Map()],
-        ['messages', new Map()]
+        ['messages', []]
       ])
     );
   }
@@ -56,7 +58,7 @@ io.on('connection', (socket: Socket) => {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     rooms.get(roomId)?.get('users')?.set(socket.id, userName);
-    const users = rooms.get(roomId)?.get('users')?.values();
+    const users = rooms.get(roomId)?.get('users')?.values() || [];
 
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
@@ -68,12 +70,12 @@ io.on('connection', (socket: Socket) => {
     console.log(roomId, userName, text);
     socket.join(roomId);
 
-    rooms.get(roomId)?.get('messages')?.get(userName)?.push({ userName, text });
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    rooms.get(roomId)?.get('messages')?.push({ userName, text });
     console.log('messages ', rooms.get(roomId)?.get('messages'));
 
-    const messages = rooms.get(roomId)?.get('messages')?.values() || [];
-
-    socket.broadcast.to(roomId).emit('ROOM:PUSH_NEW_MESSAGE', [...messages]);
+    socket.broadcast.to(roomId).emit('ROOM:PUSH_NEW_MESSAGE', { userName, text });
   });
 
   socket.on('disconnect', () => {
