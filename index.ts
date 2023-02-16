@@ -3,7 +3,7 @@ import http from 'http';
 import { Server, Socket } from 'socket.io';
 import cors from 'cors';
 import { rooms } from './src/data/rooms';
-import { IDataProps } from './types';
+import { IRoomProps } from './types';
 
 const app = express();
 const server = http.createServer(app);
@@ -17,26 +17,22 @@ const io = new Server(server, {
 app.use(cors());
 app.use(express.json());
 
-app.get(
-  '/rooms/:id',
-  (req: express.Request, res: express.Response) => {
-    const roomId = req.params.id || '';
+app.get('/rooms/:id', (req: express.Request, res: express.Response) => {
+  const roomId = req.params.id || '';
 
-    const users = rooms.has(roomId)
-      ? rooms.get(roomId)?.get('users')?.values() || []
-      : [];
+  const users = rooms.has(roomId)
+    ? rooms.get(roomId)?.get('users')?.values() || []
+    : [];
 
-    const messages =
-      rooms.get(roomId)?.get('messages')?.values() || [];
+  const messages = rooms.get(roomId)?.get('messages')?.values() || [];
 
-    const obj = {
-      users: [...users],
-      messages: [...messages]
-    };
+  const obj = {
+    users: [...users],
+    messages: [...messages]
+  };
 
-    return res.json(obj);
-  }
-);
+  return res.json(obj);
+});
 
 app.post('/rooms', (req: express.Request, res: express.Response) => {
   const { roomId } = req.body;
@@ -54,23 +50,37 @@ app.post('/rooms', (req: express.Request, res: express.Response) => {
 });
 
 io.on('connection', (socket: Socket) => {
-  socket.on('ROOM:JOIN', ({ roomId, userName }: IDataProps) => {
+  socket.on('ROOM:JOIN', ({ roomId, userName }: IRoomProps) => {
     socket.join(roomId);
+
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
     rooms.get(roomId)?.get('users')?.set(socket.id, userName);
+    const users = rooms.get(roomId)?.get('users')?.values();
 
-    const users = rooms.get(roomId)?.get('users')?.values() || [];
-
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
     socket.broadcast.to(roomId).emit('ROOM:JOINED', [...users]);
+    console.log('rooms ', rooms);
+  });
+
+  socket.on('ROOM:NEW_MESSAGE', ({ roomId, userName, text }: IRoomProps) => {
+    console.log(roomId, userName, text);
+    socket.join(roomId);
+
+    rooms.get(roomId)?.get('messages')?.get(userName)?.push({ userName, text });
+    console.log('messages ', rooms.get(roomId)?.get('messages'));
+
+    const messages = rooms.get(roomId)?.get('messages')?.values() || [];
+
+    socket.broadcast.to(roomId).emit('ROOM:PUSH_NEW_MESSAGE', [...messages]);
   });
 
   socket.on('disconnect', () => {
     rooms.forEach((value, roomId) => {
       if (value.get('users')?.delete(socket.id)) {
         const users = rooms.get(roomId)?.get('users')?.values() || [];
-
-        socket.broadcast
-          .to(roomId)
-          .emit('ROOM:UPDATE_USERS', [...users]);
+        socket.broadcast.to(roomId).emit('ROOM:UPDATE_USERS', [...users]);
       }
     });
   });
