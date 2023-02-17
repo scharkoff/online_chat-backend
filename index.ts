@@ -3,7 +3,10 @@ import http from 'http';
 import { Server, Socket } from 'socket.io';
 import cors from 'cors';
 import { rooms } from './src/data/rooms';
-import { IRoomProps } from './types';
+import { IUserDTO } from './src/dto/user';
+import { IMessageDTO } from './src/dto/message';
+import { IRoomDataDTO } from './src/dto/roomdata';
+import { IRoomPropsDTO } from './src/dto/roomprops';
 
 const app = express();
 const server = http.createServer(app);
@@ -18,32 +21,31 @@ app.use(cors());
 app.use(express.json());
 
 app.get('/rooms/:id', (req: express.Request, res: express.Response) => {
-  const roomId = req.params.id || '';
+  const roomId: string = req.params.id;
 
-  const users = rooms.has(roomId)
-    ? rooms.get(roomId)?.get('users')?.values() || []
-    : [];
+  const users = rooms.has(roomId) ? rooms.get(roomId)?.get('users')?.values() || [] : [];
 
   const messages = rooms.get(roomId)?.get('messages')?.values() || [];
 
-  const obj = {
+  const roomData: IRoomDataDTO = {
     users: [...users],
     messages: [...messages]
   };
 
-  return res.json(obj);
+  return res.json(roomData);
 });
 
 app.post('/rooms', (req: express.Request, res: express.Response) => {
   const { roomId } = req.body;
   if (!rooms.has(roomId)) {
+    const users: IUserDTO[] = [];
+    const messages: IMessageDTO[] = [];
+
     rooms.set(
       roomId,
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
       new Map([
-        ['users', new Map()],
-        ['messages', []]
+        ['users', users],
+        ['messages', messages]
       ])
     );
   }
@@ -52,26 +54,20 @@ app.post('/rooms', (req: express.Request, res: express.Response) => {
 });
 
 io.on('connection', (socket: Socket) => {
-  socket.on('ROOM:JOIN', ({ roomId, userName }: IRoomProps) => {
+  socket.on('ROOM:JOIN', ({ roomId, userName }: IRoomPropsDTO) => {
     socket.join(roomId);
 
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    rooms.get(roomId)?.get('users')?.set(socket.id, userName);
+    rooms.get(roomId)?.get('users')?.push({ socketId: socket.id, userName });
     const users = rooms.get(roomId)?.get('users')?.values() || [];
 
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
     socket.broadcast.to(roomId).emit('ROOM:JOINED', [...users]);
     console.log('rooms ', rooms);
   });
 
-  socket.on('ROOM:NEW_MESSAGE', ({ roomId, userName, text }: IRoomProps) => {
+  socket.on('ROOM:NEW_MESSAGE', ({ roomId, userName, text }: IRoomPropsDTO) => {
     console.log(roomId, userName, text);
     socket.join(roomId);
 
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
     rooms.get(roomId)?.get('messages')?.push({ userName, text });
     console.log('messages ', rooms.get(roomId)?.get('messages'));
 
@@ -80,8 +76,16 @@ io.on('connection', (socket: Socket) => {
 
   socket.on('disconnect', () => {
     rooms.forEach((value, roomId) => {
-      if (value.get('users')?.delete(socket.id)) {
+      const usersToFilter: IUserDTO[] = value.get('users') || [];
+
+      if (usersToFilter.filter((user: IUserDTO) => user.socketId !== socket.id)) {
+        const updatedUsers: IUserDTO[] = usersToFilter.filter(
+          (user: IUserDTO) => user.socketId !== socket.id
+        );
+
+        rooms.get(roomId)?.set('users', updatedUsers);
         const users = rooms.get(roomId)?.get('users')?.values() || [];
+
         socket.broadcast.to(roomId).emit('ROOM:UPDATE_USERS', [...users]);
       }
     });
