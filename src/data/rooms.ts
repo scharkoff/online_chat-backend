@@ -1,3 +1,3 @@
-import { TRoomsMapDTO } from '../dto/rooms';
+import { TRoomsMap } from '../dto/rooms';
 
-export const rooms: TRoomsMapDTO = new Map();
+export const rooms: TRoomsMap = new Map();

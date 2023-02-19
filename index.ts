@@ -1,4 +1,4 @@
-import express from 'express';
+import express, { Request, Response } from 'express';
 import http from 'http';
 import { Server, Socket } from 'socket.io';
 import cors from 'cors';
@@ -6,21 +6,21 @@ import { rooms } from './src/data/rooms';
 import { IUserDTO } from './src/dto/user';
 import { IMessageDTO } from './src/dto/message';
 import { IRoomDataDTO } from './src/dto/roomdata';
-import { IRoomPropsDTO } from './src/dto/roomprops';
+import { IRoomProps } from './src/dto/roomprops';
 
 const app = express();
 const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
     origin: 'http://localhost:4001',
-    methods: ['GET', 'POST', 'DELETE']
+    methods: ['GET', 'POST']
   }
 });
 
 app.use(cors());
 app.use(express.json());
 
-app.get('/rooms/:id', (req: express.Request, res: express.Response) => {
+app.get('/rooms/:id', (req: Request, res: Response) => {
   const roomId: string = req.params.id;
 
   const users = rooms.has(roomId) ? rooms.get(roomId)?.get('users')?.values() || [] : [];
@@ -35,7 +35,7 @@ app.get('/rooms/:id', (req: express.Request, res: express.Response) => {
   return res.json(roomData);
 });
 
-app.post('/rooms', (req: express.Request, res: express.Response) => {
+app.post('/rooms', (req: Request, res: Response) => {
   const { roomId } = req.body;
   if (!rooms.has(roomId)) {
     const users: IUserDTO[] = [];
@@ -54,7 +54,7 @@ app.post('/rooms', (req: express.Request, res: express.Response) => {
 });
 
 io.on('connection', (socket: Socket) => {
-  socket.on('ROOM:JOIN', ({ roomId, userName }: IRoomPropsDTO) => {
+  socket.on('ROOM:JOIN', ({ roomId, userName }: IRoomProps) => {
     socket.join(roomId);
 
     rooms.get(roomId)?.get('users')?.push({ socketId: socket.id, userName });
@@ -64,7 +64,7 @@ io.on('connection', (socket: Socket) => {
     console.log('rooms ', rooms);
   });
 
-  socket.on('ROOM:NEW_MESSAGE', ({ roomId, userName, text }: IRoomPropsDTO) => {
+  socket.on('ROOM:NEW_MESSAGE', ({ roomId, userName, text }: IRoomProps) => {
     console.log(roomId, userName, text);
     socket.join(roomId);
 
