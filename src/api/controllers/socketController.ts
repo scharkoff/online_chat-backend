@@ -31,6 +31,16 @@ export const socketController = () => {
       socket.broadcast.to(roomId).emit('ROOM:PUSH_NEW_MESSAGE', message);
     });
 
+    socket.on('ROOM:GET_MESSAGES', ({ roomId }: IRoomProps) => {
+      socket.join(roomId);
+
+      const messages = rooms.get(roomId)?.get('messages');
+
+      if (typeof messages !== 'undefined') {
+        socket.emit('ROOM:GIVE_MESSAGES', messages);
+      }
+    });
+
     socket.on('disconnect', () => {
       rooms.forEach((value, roomId) => {
         const usersToFilter: IUserDTO[] = value.get('users') || [];
