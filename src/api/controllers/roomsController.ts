@@ -1,9 +1,9 @@
 import { Request, Response } from 'express';
 
 import { rooms } from '../domain/rooms';
-import { IRoomDataDTO } from '../../utils/dto/roomdata';
-import { IUserDTO } from '../../utils/dto/user';
-import { IMessageDTO } from '../../utils/dto/message';
+import { IRoomDataDTO } from 'utils/dto/roomdata';
+import { IUserDTO } from 'utils/dto/user';
+import { IMessageDTO } from 'utils/dto/message';
 
 export function getRoomData(req: Request, res: Response): void {
   try {

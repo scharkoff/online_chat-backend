@@ -1,9 +1,9 @@
 import { io } from '../../../index';
 import { Socket } from 'socket.io';
-import { IRoomProps } from '../../utils/dto/roomprops';
+import { IRoomProps } from 'utils/dto/roomprops';
 import { rooms } from '../domain/rooms';
-import { IUserDTO } from '../../utils/dto/user';
-import { IMessageDTO } from '../../utils/dto/message';
+import { IUserDTO } from 'utils/dto/user';
+import { IMessageDTO } from 'utils/dto/message';
 
 export const socketController = () => {
   io.on('connection', (socket: Socket) => {
@@ -53,7 +53,5 @@ export const socketController = () => {
         }
       });
     });
-
-    console.log('user connected: ', socket.id);
   });
 };
