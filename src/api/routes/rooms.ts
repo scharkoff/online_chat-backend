@@ -1,7 +1,7 @@
 import { Router } from 'express';
 
-import { getRoomData } from '../controllers/roomts';
-import { createRoom } from '../controllers/roomts';
+import { getRoomData } from '../controllers/roomsController';
+import { createRoom } from '../controllers/roomsController';
 
 export const userRouter: Router = Router();
 
