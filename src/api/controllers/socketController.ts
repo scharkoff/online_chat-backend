@@ -57,6 +57,10 @@ export const socketController = () => {
             ?.get('users')
             ?.values();
 
+          if (!rooms.get(roomId)?.get('users')?.length) {
+            rooms.get(roomId)?.set('messages', []);
+          }
+
           if (typeof users !== 'undefined') {
             socket.broadcast.to(roomId).emit('ROOM:UPDATE_USERS', [...users]);
           }
