@@ -9,12 +9,9 @@ export function getRoomData(req: Request, res: Response): void {
   try {
     const roomId: string = req.params.id;
 
-    const users: IterableIterator<IUserDTO> | undefined = rooms.get(roomId)?.get('users')?.values();
+    const users = rooms.get(roomId)?.get('users')?.values();
 
-    const messages: IterableIterator<IMessageDTO> | undefined = rooms
-      .get(roomId)
-      ?.get('messages')
-      ?.values();
+    const messages = rooms.get(roomId)?.get('messages')?.values();
 
     let roomData: IRoomDataDTO = { users: [], messages: [] };
 

@@ -4,6 +4,7 @@ import { IRoomProps } from 'utils/dto/roomprops';
 import { rooms } from '../domain/rooms';
 import { IUserDTO } from 'utils/dto/user';
 import { IMessageDTO } from 'utils/dto/message';
+import { instanceOfIUserDTO } from '../../utils/dto/user';
 
 export const socketController = () => {
   io.on('connection', (socket: Socket) => {
@@ -11,10 +12,7 @@ export const socketController = () => {
       socket.join(roomId);
 
       rooms.get(roomId)?.get('users')?.push({ socketId: socket.id, userName });
-      const users: IterableIterator<IUserDTO> | undefined = rooms
-        .get(roomId)
-        ?.get('users')
-        ?.values();
+      const users = rooms.get(roomId)?.get('users')?.values();
 
       if (typeof users !== 'undefined') {
         socket.broadcast.to(roomId).emit('ROOM:JOINED', [...users]);
@@ -43,26 +41,25 @@ export const socketController = () => {
 
     socket.on('disconnect', () => {
       rooms.forEach((value, roomId) => {
-        const usersToFilter: IUserDTO[] = value.get('users') || [];
+        const usersToFilter = value.get('users');
 
-        if (usersToFilter.filter((user: IUserDTO) => user.socketId !== socket.id)) {
-          const updatedUsers: IUserDTO[] = usersToFilter.filter(
-            (user: IUserDTO) => user.socketId !== socket.id
-          );
+        if (instanceOfIUserDTO(usersToFilter)) {
+          if (usersToFilter.filter((user: IUserDTO) => user.socketId !== socket.id)) {
+            const updatedUsers: IUserDTO[] = usersToFilter.filter(
+              (user: IUserDTO) => user.socketId !== socket.id
+            );
 
-          rooms.get(roomId)?.set('users', updatedUsers);
+            rooms.get(roomId)?.set('users', updatedUsers);
 
-          const users: IterableIterator<IUserDTO> | undefined = rooms
-            .get(roomId)
-            ?.get('users')
-            ?.values();
+            const users = rooms.get(roomId)?.get('users')?.values();
 
-          if (!rooms.get(roomId)?.get('users')?.length) {
-            rooms.get(roomId)?.set('messages', []);
-          }
+            if (!rooms.get(roomId)?.get('users')?.length) {
+              rooms.get(roomId)?.set('messages', []);
+            }
 
-          if (typeof users !== 'undefined') {
-            socket.broadcast.to(roomId).emit('ROOM:UPDATE_USERS', [...users]);
+            if (typeof users !== 'undefined') {
+              socket.broadcast.to(roomId).emit('ROOM:UPDATE_USERS', [...users]);
+            }
           }
         }
       });
