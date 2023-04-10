@@ -2,8 +2,8 @@ import express from 'express';
 import http from 'http';
 import { Server } from 'socket.io';
 import cors from 'cors';
-import { userRouter } from './src/api/routes/rooms';
-import { socketController } from './src/api/controllers/socketController';
+import { userRouter } from './src/routes/rooms.router';
+import { socketController } from './src/domain/socket/socket.controller';
 
 const app = express();
 const server = http.createServer(app);
