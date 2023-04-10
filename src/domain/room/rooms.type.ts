@@ -5,7 +5,7 @@ export interface RequiredUserAndMessageData {
   userName: string;
 }
 
-export type TRoomsMap = Map<string, Map<string, Message[] | User[]>>;
+export type TRoomsMap = Map<string, Room>;
 
 export interface Room {
   users: User[];

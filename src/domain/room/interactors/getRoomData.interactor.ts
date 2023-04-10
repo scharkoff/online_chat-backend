@@ -6,9 +6,9 @@ export class GetRoomDataInteractor {
     try {
       const roomId: string = req.params.id;
 
-      const users = rooms.get(roomId)?.get('users');
+      const users = rooms.get(roomId)?.users;
 
-      const messages = rooms.get(roomId)?.get('messages');
+      const messages = rooms.get(roomId)?.messages;
 
       let roomData: Room = { users: [], messages: [] };
 

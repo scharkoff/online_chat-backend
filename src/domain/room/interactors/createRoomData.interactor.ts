@@ -11,13 +11,7 @@ export class CreateRoomDataInteractor {
         const users: User[] = [];
         const messages: Message[] = [];
 
-        rooms.set(
-          roomId,
-          new Map([
-            ['users', users],
-            ['messages', messages]
-          ])
-        );
+        rooms.set(roomId, { users, messages });
       }
 
       res.status(200).send({

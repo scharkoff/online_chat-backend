@@ -4,15 +4,14 @@ import { RoomDTO } from 'domain/room/room-dto';
 import { rooms } from '../room/rooms.type';
 import { User } from 'domain/user/user.types';
 import { Message } from 'domain/message/message.type';
-import { instanceOfUser } from '../user/user.types';
 
 export const socketController = () => {
   io.on('connection', (socket: Socket) => {
     socket.on('ROOM:JOIN', ({ roomId, userName }: RoomDTO) => {
       socket.join(roomId);
 
-      rooms.get(roomId)?.get('users')?.push({ socketId: socket.id, userName });
-      const users = rooms.get(roomId)?.get('users')?.values();
+      rooms.get(roomId)?.users?.push({ socketId: socket.id, userName });
+      const users = rooms.get(roomId)?.users?.values();
 
       if (typeof users !== 'undefined') {
         socket.broadcast.to(roomId).emit('ROOM:JOINED', [...users]);
@@ -24,7 +23,7 @@ export const socketController = () => {
 
       const message: Message = { userName, text };
 
-      rooms.get(roomId)?.get('messages')?.push(message);
+      rooms.get(roomId)?.messages?.push(message);
 
       socket.broadcast.to(roomId).emit('ROOM:PUSH_NEW_MESSAGE', message);
     });
@@ -32,7 +31,7 @@ export const socketController = () => {
     socket.on('ROOM:GET_MESSAGES', ({ roomId }: RoomDTO) => {
       socket.join(roomId);
 
-      const messages = rooms.get(roomId)?.get('messages');
+      const messages = rooms.get(roomId)?.messages;
 
       if (typeof messages !== 'undefined') {
         socket.emit('ROOM:GIVE_MESSAGES', messages);
@@ -41,26 +40,25 @@ export const socketController = () => {
 
     socket.on('disconnect', () => {
       rooms.forEach((value, roomId) => {
-        const usersToFilter = value.get('users');
+        const currentUsers = value.users;
 
-        if (instanceOfUser(usersToFilter)) {
-          if (usersToFilter.filter((user: User) => user.socketId !== socket.id)) {
-            const updatedUsers: User[] = usersToFilter.filter(
-              (user: User) => user.socketId !== socket.id
-            );
+        const updatedUsers: User[] = currentUsers.filter(
+          (user: User) => user.socketId !== socket.id
+        );
 
-            rooms.get(roomId)?.set('users', updatedUsers);
+        if (rooms.has(roomId)) {
+          const roomData = rooms.get(roomId);
 
-            const users = rooms.get(roomId)?.get('users')?.values();
-
-            if (!rooms.get(roomId)?.get('users')?.length) {
-              rooms.get(roomId)?.set('messages', []);
+          if (typeof roomData !== 'undefined') {
+            if (roomData.users.length === 1) {
+              roomData.messages = [];
             }
 
-            if (typeof users !== 'undefined') {
-              socket.broadcast.to(roomId).emit('ROOM:UPDATE_USERS', [...users]);
-            }
+            roomData.users = updatedUsers;
+            rooms.set(roomId, roomData);
           }
+
+          socket.broadcast.to(roomId).emit('ROOM:UPDATE_USERS', rooms.get(roomId)?.users);
         }
       });
     });
