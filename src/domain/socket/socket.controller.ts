@@ -1,66 +1,51 @@
-import { io } from '../../../index';
-import { Socket } from 'socket.io';
-import { RoomDTO } from 'domain/room/room-dto';
-import { rooms } from '../room/rooms.type';
-import { User } from 'domain/user/user.types';
-import { Message } from 'domain/message/message.type';
+import { Server, Socket } from 'socket.io';
+import { IRoomJoinDTO } from './interactors/room-join';
+import { INewMessageDTO } from './interactors/new-message';
+import { IGetMessagesDTO } from './interactors/get-messages';
+import { IRoomJoinInteractor } from './interfaces/join.interface';
+import { INewMessageInteractor } from './interfaces/new-messages.interface';
+import { IGetMessagesInteractor } from './interfaces/get-messages.interface';
+import { IRoomDisconnectInteractor } from './interfaces/room-disconnect.interface';
 
-export const socketController = () => {
-  io.on('connection', (socket: Socket) => {
-    socket.on('ROOM:JOIN', ({ roomId, userName }: RoomDTO) => {
-      socket.join(roomId);
+export class SocketController {
+  private RoomJoin: IRoomJoinInteractor;
+  private NewMessage: INewMessageInteractor;
+  private GetMessages: IGetMessagesInteractor;
+  private RoomDisconnect: IRoomDisconnectInteractor;
 
-      rooms.get(roomId)?.users?.push({ socketId: socket.id, userName });
-      const users = rooms.get(roomId)?.users?.values();
+  private io: Server;
 
-      if (typeof users !== 'undefined') {
-        socket.broadcast.to(roomId).emit('ROOM:JOINED', [...users]);
-      }
-    });
+  constructor(
+    io: Server,
+    RoomJoin: IRoomJoinInteractor,
+    NewMessage: INewMessageInteractor,
+    GetMessages: IGetMessagesInteractor,
+    RoomDisconnect: IRoomDisconnectInteractor
+  ) {
+    this.io = io;
+    this.RoomJoin = RoomJoin;
+    this.NewMessage = NewMessage;
+    this.GetMessages = GetMessages;
+    this.RoomDisconnect = RoomDisconnect;
+  }
 
-    socket.on('ROOM:NEW_MESSAGE', ({ roomId, userName, text }: RoomDTO) => {
-      socket.join(roomId);
+  public inizialize(): void {
+    this.io.on('connection', (socket: Socket) => {
+      socket.on('ROOM:JOIN', ({ roomId, userName }: IRoomJoinDTO) => {
+        this.RoomJoin.join({ socket, roomId, userName });
+      });
 
-      const message: Message = { userName, text };
+      socket.on('ROOM:NEW_MESSAGE', ({ roomId, userName, text }: INewMessageDTO) => {
+        this.NewMessage.add({ socket, roomId, userName, text });
+      });
 
-      rooms.get(roomId)?.messages?.push(message);
+      socket.on('ROOM:GET_MESSAGES', ({ roomId }: IGetMessagesDTO) => {
+        this.GetMessages.get({ socket, roomId });
+      });
 
-      socket.broadcast.to(roomId).emit('ROOM:PUSH_NEW_MESSAGE', message);
-    });
-
-    socket.on('ROOM:GET_MESSAGES', ({ roomId }: RoomDTO) => {
-      socket.join(roomId);
-
-      const messages = rooms.get(roomId)?.messages;
-
-      if (typeof messages !== 'undefined') {
-        socket.emit('ROOM:GIVE_MESSAGES', messages);
-      }
-    });
-
-    socket.on('disconnect', () => {
-      rooms.forEach((value, roomId) => {
-        const currentUsers = value.users;
-
-        const updatedUsers: User[] = currentUsers.filter(
-          (user: User) => user.socketId !== socket.id
-        );
-
-        if (rooms.has(roomId)) {
-          const roomData = rooms.get(roomId);
-
-          if (typeof roomData !== 'undefined') {
-            if (roomData.users.length === 1) {
-              roomData.messages = [];
-            }
-
-            roomData.users = updatedUsers;
-            rooms.set(roomId, roomData);
-          }
-
-          socket.broadcast.to(roomId).emit('ROOM:UPDATE_USERS', rooms.get(roomId)?.users);
-        }
+      socket.on('disconnect', () => {
+        this.RoomDisconnect.disconnect({ socket });
       });
     });
-  });
-};
+  }
+}

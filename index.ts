@@ -3,7 +3,8 @@ import http from 'http';
 import { Server } from 'socket.io';
 import cors from 'cors';
 import { userRouter } from './src/routes/rooms.router';
-import { socketController } from './src/domain/socket/socket.controller';
+import { SocketController } from './src/domain/socket/socket.controller';
+import { Container } from 'container';
 
 const app = express();
 const server = http.createServer(app);
@@ -20,7 +21,10 @@ app.use(express.json());
 
 app.use(userRouter);
 
-socketController();
+const container = new Container(io);
+
+const socketController = container.get<SocketController>(SocketController);
+socketController.inizialize();
 
 server.listen(4000, () => {
   console.log('Server started on port 4000...');
