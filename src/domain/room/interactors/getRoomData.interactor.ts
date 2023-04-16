@@ -1,7 +1,8 @@
 import { Request, Response } from 'express';
 import { Room, rooms } from '../rooms.type';
+import { IGetRoomDataInteractor } from '../interfaces/getRoomData.interactor';
 
-export class GetRoomDataInteractor {
+export class GetRoomDataInteractor implements IGetRoomDataInteractor {
   public getRoomData(req: Request, res: Response): void {
     try {
       const roomId: string = req.params.id;

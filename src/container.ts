@@ -4,6 +4,9 @@ import { NewMessage } from 'domain/socket/interactors/new-message';
 import { RoomDisconnect } from 'domain/socket/interactors/room-disconnect';
 import { SocketController } from 'domain/socket/socket.controller';
 import { Server } from 'socket.io';
+import { RoomController } from 'domain/room/rooms.controller';
+import { CreateRoomDataInteractor } from 'domain/room/interactors/createRoomData.interactor';
+import { GetRoomDataInteractor } from 'domain/room/interactors/getRoomData.interactor';
 
 export class Container {
   private instances = new Map();
@@ -18,6 +21,11 @@ export class Container {
         new GetMessages(),
         new RoomDisconnect()
       )
+    );
+
+    this.instances.set(
+      RoomController,
+      new RoomController(new GetRoomDataInteractor(), new CreateRoomDataInteractor())
     );
   }
 

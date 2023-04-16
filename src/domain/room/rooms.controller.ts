@@ -1,16 +1,24 @@
 import { Request, Response } from 'express';
-import { GetRoomDataInteractor } from './interactors/getRoomData.interactor';
-import { CreateRoomDataInteractor } from './interactors/createRoomData.interactor';
+import { ICreateRoomDataInteractor } from './interfaces/createRoomData.interface';
+import { IGetRoomDataInteractor } from './interfaces/getRoomData.interactor';
 
-export class RoomContoller {
-  private getRoomDataInteractor: GetRoomDataInteractor = new GetRoomDataInteractor();
-  private createRoomDataInteractor: CreateRoomDataInteractor = new CreateRoomDataInteractor();
+export class RoomController {
+  private getRoomDataInteractor: IGetRoomDataInteractor;
+  private createRoomDataInteractor: ICreateRoomDataInteractor;
 
-  getRoomData(req: Request, res: Response) {
+  constructor(
+    getRoomDataInteractor: IGetRoomDataInteractor,
+    createRoomDataInteractor: ICreateRoomDataInteractor
+  ) {
+    this.getRoomDataInteractor = getRoomDataInteractor;
+    this.createRoomDataInteractor = createRoomDataInteractor;
+  }
+
+  public getRoomData(req: Request, res: Response) {
     return this.getRoomDataInteractor.getRoomData(req, res);
   }
 
-  createRoomData(req: Request, res: Response) {
+  public createRoomData(req: Request, res: Response) {
     return this.createRoomDataInteractor.createRoom(req, res);
   }
 }

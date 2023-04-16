@@ -1,10 +1,12 @@
 import { Router } from 'express';
-import { RoomContoller } from '../domain/room/rooms.controller';
+import { RoomController } from '../domain/room/rooms.controller';
+import { Container } from 'container';
+import { io } from 'index';
 
-export const userRouter: Router = Router();
+export const roomsRouter: Router = Router();
 
-const roomContoller = new RoomContoller();
+const roomController = new Container(io).get<RoomController>(RoomController);
 
-userRouter.get('/rooms/:id', roomContoller.getRoomData.bind(roomContoller));
+roomsRouter.get('/rooms/:id', roomController.getRoomData.bind(roomController));
 
-userRouter.post('/rooms', roomContoller.createRoomData.bind(roomContoller));
+roomsRouter.post('/rooms', roomController.createRoomData.bind(roomController));

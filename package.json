@@ -7,7 +7,7 @@
   "exports": "./dist/index.js",
   "scripts": {
     "build": "npx tsc",
-    "dev": "nodemon --exec ts-node --require tsconfig-paths/register index.ts",
+    "dev": "nodemon --watch src --exec ts-node --require tsconfig-paths/register src/index.ts",
     "start": "node dist/index.js",
     "prettier-format": "prettier --config .prettierrc --write"
   },
@@ -38,6 +38,7 @@
     "prettier": "^2.8.4",
     "ts-node": "^10.9.1",
     "ts-node-dev": "^2.0.0",
+    "tsc-watch": "^6.0.0",
     "tsconfig-paths": "^4.2.0"
   }
 }

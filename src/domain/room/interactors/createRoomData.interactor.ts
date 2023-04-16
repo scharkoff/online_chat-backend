@@ -2,8 +2,9 @@ import { Request, Response } from 'express';
 import { rooms } from '../rooms.type';
 import { User } from 'domain/user/user.types';
 import { Message } from 'domain/message/message.type';
+import { ICreateRoomDataInteractor } from '../interfaces/createRoomData.interface';
 
-export class CreateRoomDataInteractor {
+export class CreateRoomDataInteractor implements ICreateRoomDataInteractor {
   public createRoom(req: Request, res: Response): void {
     try {
       const { roomId } = req.body;
