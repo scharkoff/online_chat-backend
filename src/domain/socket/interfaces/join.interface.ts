@@ -1,5 +1,5 @@
-import { IRoomJoinDTO } from '../interactors/room-join';
+import IRoomJoinDTO from '../dto/room-join.dto';
 
-export interface IRoomJoinInteractor {
+export default interface IRoomJoinInteractor {
   join({ socket, roomId, userName }: IRoomJoinDTO): void;
 }

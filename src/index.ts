@@ -1,7 +1,7 @@
 import { App } from 'app';
-import { Container } from 'container';
-import { SocketController } from 'domain/socket/socket.controller';
 import { Server } from 'socket.io';
+import SocketController from 'domain/socket/socket.controller';
+import Container from 'container';
 
 export const app = new App();
 
@@ -16,8 +16,7 @@ app.useCORS();
 
 app.useJSON();
 
-const socketController = new Container(io).get<SocketController>(SocketController);
-socketController.inizialize();
+new Container(io).get<SocketController>(SocketController).inizialize();
 
 app.useRoutes();
 

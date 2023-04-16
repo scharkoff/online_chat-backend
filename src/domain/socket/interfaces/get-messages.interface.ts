@@ -1,5 +1,5 @@
-import { IGetMessagesDTO } from '../interactors/get-messages';
+import IGetMessagesDTO from '../dto/get-messages.dto';
 
-export interface IGetMessagesInteractor {
+export default interface IGetMessagesInteractor {
   get({ socket, roomId }: IGetMessagesDTO): void;
 }

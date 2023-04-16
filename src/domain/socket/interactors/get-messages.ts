@@ -1,13 +1,8 @@
-import { rooms } from 'domain/room/rooms.type';
-import { Socket } from 'socket.io';
-import { IGetMessagesInteractor } from '../interfaces/get-messages.interface';
+import IGetMessagesInteractor from '../interfaces/get-messages.interface';
+import IGetMessagesDTO from '../dto/get-messages.dto';
+import rooms from 'domain/room';
 
-export interface IGetMessagesDTO {
-  socket: Socket;
-  roomId: string;
-}
-
-export class GetMessages implements IGetMessagesInteractor {
+export default class GetMessages implements IGetMessagesInteractor {
   public get({ socket, roomId }: IGetMessagesDTO): void {
     if (typeof socket !== 'undefined') {
       {

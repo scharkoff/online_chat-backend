@@ -1,3 +1,3 @@
-import { roomsRouter } from './rooms.router';
+import roomsRouter from './rooms.router';
 
 export default [roomsRouter];

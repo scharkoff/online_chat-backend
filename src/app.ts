@@ -6,7 +6,6 @@ import routes from './routes';
 export class App {
   private app = express();
   private server = http.createServer(this.app);
-
   private routes = routes;
 
   public useCORS() {
@@ -19,7 +18,7 @@ export class App {
 
   public listen(port: number) {
     this.server.listen(port, () => {
-      console.log('Server started on port 4000...');
+      console.log(`Server started on port ${port}...`);
     });
   }
 

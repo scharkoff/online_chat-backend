@@ -1,13 +1,9 @@
-import { rooms } from 'domain/room/rooms.type';
-import { User } from 'domain/user/user.types';
-import { Socket } from 'socket.io';
-import { IRoomDisconnectInteractor } from '../interfaces/room-disconnect.interface';
+import User from 'domain/user/interfaces/user.interface';
+import IRoomDisconnectInteractor from '../interfaces/room-disconnect.interface';
+import IRoomDisconnectDTO from '../dto/room-disconnect.dto';
+import rooms from 'domain/room';
 
-export interface IRoomDisconnectDTO {
-  socket: Socket;
-}
-
-export class RoomDisconnect implements IRoomDisconnectInteractor {
+export default class RoomDisconnect implements IRoomDisconnectInteractor {
   public disconnect({ socket }: IRoomDisconnectDTO): void {
     if (typeof socket !== 'undefined') {
       rooms.forEach((value, roomId) => {

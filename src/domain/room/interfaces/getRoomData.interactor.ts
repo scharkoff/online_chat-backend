@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
 
-export interface IGetRoomDataInteractor {
+export default interface IGetRoomDataInteractor {
   getRoomData(req: Request, res: Response): void;
 }

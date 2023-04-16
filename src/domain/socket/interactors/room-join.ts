@@ -1,14 +1,8 @@
-import { rooms } from 'domain/room/rooms.type';
-import { Socket } from 'socket.io';
-import { IRoomJoinInteractor } from '../interfaces/join.interface';
+import IRoomJoinInteractor from '../interfaces/join.interface';
+import IRoomJoinDTO from '../dto/room-join.dto';
+import rooms from 'domain/room';
 
-export interface IRoomJoinDTO {
-  socket: Socket;
-  roomId: string;
-  userName: string;
-}
-
-export class RoomJoin implements IRoomJoinInteractor {
+export default class RoomJoin implements IRoomJoinInteractor {
   public join({ socket, roomId, userName }: IRoomJoinDTO): void {
     if (typeof socket !== 'undefined') {
       socket.join(roomId);

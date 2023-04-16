@@ -1,5 +1,5 @@
-import { IRoomDisconnectDTO } from '../interactors/room-disconnect';
+import IRoomDisconnectDTO from '../dto/room-disconnect.dto';
 
-export interface IRoomDisconnectInteractor {
+export default interface IRoomDisconnectInteractor {
   disconnect({ socket }: IRoomDisconnectDTO): void;
 }

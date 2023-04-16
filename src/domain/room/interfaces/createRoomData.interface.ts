@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
 
-export interface ICreateRoomDataInteractor {
+export default interface ICreateRoomDataInteractor {
   createRoom(req: Request, res: Response): void;
 }

@@ -1,5 +1,5 @@
-import { INewMessageDTO } from '../interactors/new-message';
+import INewMessageDTO from '../dto/new-messages.dto';
 
-export interface INewMessageInteractor {
+export default interface INewMessageInteractor {
   add({ socket, roomId, userName, text }: INewMessageDTO): void;
 }

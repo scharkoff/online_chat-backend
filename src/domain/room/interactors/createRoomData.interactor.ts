@@ -1,10 +1,10 @@
 import { Request, Response } from 'express';
-import { rooms } from '../rooms.type';
-import { User } from 'domain/user/user.types';
-import { Message } from 'domain/message/message.type';
-import { ICreateRoomDataInteractor } from '../interfaces/createRoomData.interface';
+import ICreateRoomDataInteractor from '../interfaces/createRoomData.interface';
+import User from 'domain/user/interfaces/user.interface';
+import Message from 'domain/message/interfaces/message.interface';
+import rooms from '..';
 
-export class CreateRoomDataInteractor implements ICreateRoomDataInteractor {
+export default class CreateRoomDataInteractor implements ICreateRoomDataInteractor {
   public createRoom(req: Request, res: Response): void {
     try {
       const { roomId } = req.body;
