@@ -1,23 +1,14 @@
 import { App } from './app.js';
-import { Server } from 'socket.io';
-import Container from './container.js';
-import SocketController from './domain/socket/socket.controller.js';
+import routes from './routes/index.js';
 
 export const app = new App();
-
-export const io = new Server(app.getHttpServer(), {
-  cors: {
-    origin: 'http://localhost:4001',
-    methods: ['GET', 'POST']
-  }
-});
 
 app.useCORS();
 
 app.useJSON();
 
-new Container(io).get<SocketController>(SocketController).inizialize();
+app.useSocket();
 
-app.useRoutes();
+app.useRoutes(routes);
 
 app.listen(4000);

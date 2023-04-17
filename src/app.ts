@@ -1,12 +1,19 @@
 import express, { Router } from 'express';
-import http, { Server } from 'http';
+import { Server } from 'socket.io';
+import http from 'http';
 import cors from 'cors';
-import routes from './routes/index.js';
+import Container from './container.js';
+import SocketController from './domain/socket/socket.controller.js';
 
 export class App {
   private app = express();
   private server = http.createServer(this.app);
-  private routes = routes;
+  private io = new Server(this.server, {
+    cors: {
+      origin: 'http://localhost:4001',
+      methods: ['GET', 'POST']
+    }
+  });
 
   public useCORS() {
     this.app.use(cors());
@@ -22,13 +29,17 @@ export class App {
     });
   }
 
-  public useRoutes() {
-    this.routes.forEach((route: Router) => {
+  public useRoutes(routes: Router[]) {
+    routes.forEach((route: Router) => {
       this.app.use(route);
     });
   }
 
-  public getHttpServer(): Server {
-    return this.server;
+  public useSocket() {
+    new Container(this.io).get<SocketController>(SocketController).inizialize();
+  }
+
+  public getIo(): Server {
+    return this.io;
   }
 }
