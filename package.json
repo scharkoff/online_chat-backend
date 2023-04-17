@@ -3,12 +3,12 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.ts",
-  "type": "commonjs",
+  "type": "module",
   "exports": "./dist/index.js",
   "scripts": {
     "build": "npx tsc",
-    "dev": "nodemon --watch src --exec ts-node --require tsconfig-paths/register src/index.ts",
-    "start": "node dist/index.js",
+    "dev": "npx nodemon",
+    "start": "npx tsc && node dist/index.js",
     "prettier-format": "prettier --config .prettierrc --write"
   },
   "repository": {
@@ -35,6 +35,8 @@
     "eslint-config-google": "^0.14.0",
     "eslint-config-prettier": "^8.6.0",
     "eslint-plugin-prettier": "^4.2.1",
+    "esm": "^3.2.25",
+    "nodemon": "^2.0.22",
     "prettier": "^2.8.4",
     "ts-node": "^10.9.1",
     "ts-node-dev": "^2.0.0",

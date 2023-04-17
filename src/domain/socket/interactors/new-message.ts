@@ -1,7 +1,7 @@
-import Message from 'domain/message/interfaces/message.interface';
-import INewMessageInteractor from '../interfaces/new-messages.interface';
-import INewMessageDTO from '../dto/new-messages.dto';
-import rooms from 'domain/room';
+import Message from '../../../domain/message/interfaces/message.interface.js';
+import INewMessageInteractor from '../interfaces/new-messages.interface.js';
+import INewMessageDTO from '../dto/new-messages.dto.js';
+import rooms from '../../../domain/room/index.js';
 
 export default class NewMessage implements INewMessageInteractor {
   public add({ socket, roomId, userName, text }: INewMessageDTO): void {

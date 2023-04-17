@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
-import IGetRoomDataInteractor from '../interfaces/getRoomData.interactor';
-import rooms from '..';
-import Room from '../interfaces/room.interface';
+import IGetRoomDataInteractor from '../interfaces/getRoomData.interactor.js';
+import rooms from '../index.js';
+import Room from '../interfaces/room.interface.js';
 
 export default class GetRoomDataInteractor implements IGetRoomDataInteractor {
   public getRoomData(req: Request, res: Response): void {

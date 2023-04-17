@@ -1,7 +1,7 @@
 import express, { Router } from 'express';
 import http, { Server } from 'http';
 import cors from 'cors';
-import routes from './routes';
+import routes from './routes/index.js';
 
 export class App {
   private app = express();

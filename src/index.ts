@@ -1,7 +1,7 @@
-import { App } from 'app';
+import { App } from './app.js';
 import { Server } from 'socket.io';
-import SocketController from 'domain/socket/socket.controller';
-import Container from 'container';
+import Container from './container.js';
+import SocketController from './domain/socket/socket.controller.js';
 
 export const app = new App();
 

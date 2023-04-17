@@ -1,7 +1,7 @@
 import { Router } from 'express';
-import { io } from 'index';
-import RoomController from '../domain/room/rooms.controller';
-import Container from 'container';
+import { io } from '../index.js';
+import RoomController from '../domain/room/rooms.controller.js';
+import Container from '../container.js';
 
 const roomsRouter: Router = Router();
 

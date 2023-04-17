@@ -1,7 +1,4 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.RoomController = void 0;
-class RoomController {
+export default class RoomController {
     constructor(getRoomDataInteractor, createRoomDataInteractor) {
         this.getRoomDataInteractor = getRoomDataInteractor;
         this.createRoomDataInteractor = createRoomDataInteractor;
@@ -13,4 +10,3 @@ class RoomController {
         return this.createRoomDataInteractor.createRoom(req, res);
     }
 }
-exports.RoomController = RoomController;

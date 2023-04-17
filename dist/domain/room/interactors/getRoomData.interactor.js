@@ -1,13 +1,10 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.GetRoomDataInteractor = void 0;
-const rooms_type_1 = require("../rooms.type");
-class GetRoomDataInteractor {
+import rooms from '../index.js';
+export default class GetRoomDataInteractor {
     getRoomData(req, res) {
         try {
             const roomId = req.params.id;
-            const users = rooms_type_1.rooms.get(roomId)?.users;
-            const messages = rooms_type_1.rooms.get(roomId)?.messages;
+            const users = rooms.get(roomId)?.users;
+            const messages = rooms.get(roomId)?.messages;
             let roomData = { users: [], messages: [] };
             if (typeof users !== 'undefined' && typeof messages !== 'undefined') {
                 roomData = {
@@ -25,4 +22,3 @@ class GetRoomDataInteractor {
         }
     }
 }
-exports.GetRoomDataInteractor = GetRoomDataInteractor;

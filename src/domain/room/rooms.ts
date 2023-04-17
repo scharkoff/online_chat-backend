@@ -1,4 +1,4 @@
-import Room from './interfaces/room.interface';
+import Room from './interfaces/room.interface.js';
 
 export default class Rooms {
   private rooms: Map<string, Room> = new Map();
