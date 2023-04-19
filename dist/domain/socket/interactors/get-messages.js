@@ -1,4 +1,4 @@
-import rooms from 'domain/room/index.js';
+import rooms from '../../../domain/room/index.js';
 export default class GetMessages {
     get({ socket, roomId }) {
         if (typeof socket !== 'undefined') {

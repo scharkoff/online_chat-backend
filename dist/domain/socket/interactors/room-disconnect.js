@@ -1,4 +1,4 @@
-import rooms from 'domain/room/index.js';
+import rooms from '../../../domain/room/index.js';
 export default class RoomDisconnect {
     disconnect({ socket }) {
         if (typeof socket !== 'undefined') {

@@ -15,11 +15,8 @@ export class App {
     }
   });
 
-  public useCORS() {
+  constructor() {
     this.app.use(cors());
-  }
-
-  public useJSON() {
     this.app.use(express.json());
   }
 

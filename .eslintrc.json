@@ -1,6 +1,6 @@
 {
   "env": {
-    "browser": true,
+    "node": true,
     "es2021": true
   },
   "extends": [
@@ -15,10 +15,17 @@
     "ecmaVersion": "latest",
     "sourceType": "module"
   },
-  "plugins": ["@typescript-eslint", "prettier"],
+  "plugins": ["@typescript-eslint", "prettier", "import"],
   "rules": {
     "no-unused-vars": "off",
     "require-jsdoc": 0,
-    "new-cap": 0
+    "new-cap": 0,
+    "import/extensions": [
+      "error",
+      "always",
+      {
+        "js": "always"
+      }
+    ]
   }
 }
