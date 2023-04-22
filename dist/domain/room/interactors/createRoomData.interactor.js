@@ -1,12 +1,17 @@
-import rooms from '../index.js';
-export default class CreateRoomDataInteractor {
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const __1 = __importDefault(require(".."));
+class CreateRoomDataInteractor {
     createRoom(req, res) {
         try {
             const { roomId } = req.body;
-            if (!rooms.has(roomId)) {
+            if (!__1.default.has(roomId)) {
                 const users = [];
                 const messages = [];
-                rooms.set(roomId, { users, messages });
+                __1.default.set(roomId, { users, messages });
             }
             res.status(200).send({
                 status: 'success'
@@ -20,4 +25,5 @@ export default class CreateRoomDataInteractor {
         }
     }
 }
+exports.default = CreateRoomDataInteractor;
 //# sourceMappingURL=createRoomData.interactor.js.map

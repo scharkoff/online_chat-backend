@@ -1,10 +1,15 @@
-import rooms from '../../../domain/room/index.js';
-export default class NewMessage {
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const room_1 = __importDefault(require("domain/room"));
+class NewMessage {
     add({ socket, roomId, userName, text }) {
         if (typeof socket !== 'undefined') {
             socket.join(roomId);
             const message = { userName, text };
-            rooms.get(roomId)?.messages?.push(message);
+            room_1.default.get(roomId)?.messages?.push(message);
             socket.broadcast.to(roomId).emit('ROOM:PUSH_NEW_MESSAGE', message);
         }
         else {
@@ -12,4 +17,5 @@ export default class NewMessage {
         }
     }
 }
+exports.default = NewMessage;
 //# sourceMappingURL=new-message.js.map

@@ -2,10 +2,8 @@ import express, { Router } from 'express';
 import { Server } from 'socket.io';
 import http from 'http';
 import cors from 'cors';
-import Container from './container';
-import SocketController from './domain/socket/socket.controller';
 
-export class App {
+export default class App {
   private app = express();
   private server = http.createServer(this.app);
   private io = new Server(this.server, {
@@ -30,10 +28,6 @@ export class App {
     routes.forEach((route: Router) => {
       this.app.use(route);
     });
-  }
-
-  public useSocket() {
-    new Container(this.io).get<SocketController>(SocketController).inizialize();
   }
 
   public getIo(): Server {

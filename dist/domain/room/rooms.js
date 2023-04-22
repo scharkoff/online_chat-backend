@@ -1,4 +1,6 @@
-export default class Rooms {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+class Rooms {
     constructor() {
         this.rooms = new Map();
     }
@@ -6,4 +8,5 @@ export default class Rooms {
         return this.rooms;
     }
 }
+exports.default = Rooms;
 //# sourceMappingURL=rooms.js.map

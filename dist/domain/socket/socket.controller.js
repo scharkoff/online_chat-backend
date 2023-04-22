@@ -1,4 +1,6 @@
-export default class SocketController {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+class SocketController {
     constructor(io, RoomJoin, NewMessage, GetMessages, RoomDisconnect) {
         this.io = io;
         this.roomJoin = RoomJoin;
@@ -23,4 +25,5 @@ export default class SocketController {
         });
     }
 }
+exports.default = SocketController;
 //# sourceMappingURL=socket.controller.js.map

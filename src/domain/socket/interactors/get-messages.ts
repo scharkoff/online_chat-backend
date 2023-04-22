@@ -1,6 +1,6 @@
 import IGetMessagesInteractor from '../interfaces/get-messages.interface';
 import IGetMessagesDTO from '../dto/get-messages.dto';
-import rooms from 'domain/room/index';
+import rooms from 'domain/room';
 
 export default class GetMessages implements IGetMessagesInteractor {
   public get({ socket, roomId }: IGetMessagesDTO): void {

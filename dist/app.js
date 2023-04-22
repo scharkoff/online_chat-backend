@@ -1,21 +1,24 @@
-import express from 'express';
-import { Server } from 'socket.io';
-import http from 'http';
-import cors from 'cors';
-import Container from './container.js';
-import SocketController from './domain/socket/socket.controller.js';
-export class App {
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = __importDefault(require("express"));
+const socket_io_1 = require("socket.io");
+const http_1 = __importDefault(require("http"));
+const cors_1 = __importDefault(require("cors"));
+class App {
     constructor() {
-        this.app = express();
-        this.server = http.createServer(this.app);
-        this.io = new Server(this.server, {
+        this.app = (0, express_1.default)();
+        this.server = http_1.default.createServer(this.app);
+        this.io = new socket_io_1.Server(this.server, {
             cors: {
                 origin: 'http://localhost:4001',
                 methods: ['GET', 'POST']
             }
         });
-        this.app.use(cors());
-        this.app.use(express.json());
+        this.app.use((0, cors_1.default)());
+        this.app.use(express_1.default.json());
     }
     listen(port) {
         this.server.listen(port, () => {
@@ -27,11 +30,9 @@ export class App {
             this.app.use(route);
         });
     }
-    useSocket() {
-        new Container(this.io).get(SocketController).inizialize();
-    }
     getIo() {
         return this.io;
     }
 }
+exports.default = App;
 //# sourceMappingURL=app.js.map

@@ -1,10 +1,15 @@
-import rooms from '../../../domain/room/index.js';
-export default class GetMessages {
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const room_1 = __importDefault(require("domain/room"));
+class GetMessages {
     get({ socket, roomId }) {
         if (typeof socket !== 'undefined') {
             {
                 socket.join(roomId);
-                const messages = rooms.get(roomId)?.messages;
+                const messages = room_1.default.get(roomId)?.messages;
                 if (typeof messages !== 'undefined') {
                     socket.emit('ROOM:GIVE_MESSAGES', messages);
                 }
@@ -15,4 +20,5 @@ export default class GetMessages {
         }
     }
 }
+exports.default = GetMessages;
 //# sourceMappingURL=get-messages.js.map

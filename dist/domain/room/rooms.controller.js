@@ -1,4 +1,6 @@
-export default class RoomController {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+class RoomController {
     constructor(getRoomDataInteractor, createRoomDataInteractor) {
         this.getRoomDataInteractor = getRoomDataInteractor;
         this.createRoomDataInteractor = createRoomDataInteractor;
@@ -10,4 +12,5 @@ export default class RoomController {
         return this.createRoomDataInteractor.createRoom(req, res);
     }
 }
+exports.default = RoomController;
 //# sourceMappingURL=rooms.controller.js.map

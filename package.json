@@ -8,7 +8,7 @@
   "scripts": {
     "build": "npx tsc",
     "dev": "npx nodemon",
-    "start": "npx tsc && node dist/index.js",
+    "start": "npx tsc && node -r tsconfig-paths/register -r ts-node/register dist/index.js",
     "prettier-format": "prettier --config .prettierrc --write"
   },
   "repository": {

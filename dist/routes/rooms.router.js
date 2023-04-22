@@ -1,7 +1,9 @@
-import { Router } from 'express';
-export default class RoomsRouter {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+class RoomsRouter {
     constructor(roomController) {
-        this.roomsRouter = Router();
+        this.roomsRouter = (0, express_1.Router)();
         this.roomController = roomController;
         this.roomsRouter.get('/rooms/:id', this.roomController.getRoomData.bind(this.roomController));
         this.roomsRouter.post('/rooms', this.roomController.createRoomData.bind(this.roomController));
@@ -10,4 +12,5 @@ export default class RoomsRouter {
         return this.roomsRouter;
     }
 }
+exports.default = RoomsRouter;
 //# sourceMappingURL=rooms.router.js.map
