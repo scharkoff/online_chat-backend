@@ -1,9 +1,13 @@
 import { Router } from 'express';
-import RoomController from '../domain/room/rooms.controller.js';
-import GetRoomDataInteractor from '../domain/room/interactors/getRoomData.interactor.js';
-import CreateRoomDataInteractor from '../domain/room/interactors/createRoomData.interactor.js';
-const roomsRouter = Router();
-const roomController = new RoomController(new GetRoomDataInteractor(), new CreateRoomDataInteractor());
-roomsRouter.get('/rooms/:id', roomController.getRoomData.bind(roomController));
-roomsRouter.post('/rooms', roomController.createRoomData.bind(roomController));
-export default roomsRouter;
+export default class RoomsRouter {
+    constructor(roomController) {
+        this.roomsRouter = Router();
+        this.roomController = roomController;
+        this.roomsRouter.get('/rooms/:id', this.roomController.getRoomData.bind(this.roomController));
+        this.roomsRouter.post('/rooms', this.roomController.createRoomData.bind(this.roomController));
+    }
+    get() {
+        return this.roomsRouter;
+    }
+}
+//# sourceMappingURL=rooms.router.js.map

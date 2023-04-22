@@ -6,3 +6,4 @@ export default class Rooms {
         return this.rooms;
     }
 }
+//# sourceMappingURL=rooms.js.map

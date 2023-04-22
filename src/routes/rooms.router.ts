@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import RoomController from '../domain/room/rooms.controller.js';
+import RoomController from 'domain/room/rooms.controller.js';
 
 export default class RoomsRouter {
   private roomsRouter: Router = Router();

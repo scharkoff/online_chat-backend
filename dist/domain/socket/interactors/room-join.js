@@ -14,3 +14,4 @@ export default class RoomJoin {
         }
     }
 }
+//# sourceMappingURL=room-join.js.map

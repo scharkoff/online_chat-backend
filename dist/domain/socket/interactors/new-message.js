@@ -12,3 +12,4 @@ export default class NewMessage {
         }
     }
 }
+//# sourceMappingURL=new-message.js.map

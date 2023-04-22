@@ -1,12 +1,12 @@
 import { Server } from 'socket.io';
-import GetMessages from './domain/socket/interactors/get-messages.js';
-import RoomJoin from './domain/socket/interactors/room-join.js';
-import NewMessage from './domain/socket/interactors/new-message.js';
-import RoomDisconnect from './domain/socket/interactors/room-disconnect.js';
-import SocketController from './domain/socket/socket.controller.js';
-import RoomController from './domain/room/rooms.controller.js';
-import CreateRoomDataInteractor from './domain/room/interactors/createRoomData.interactor.js';
-import GetRoomDataInteractor from './domain/room/interactors/getRoomData.interactor.js';
+import GetMessages from './domain/socket/interactors/get-messages';
+import RoomJoin from './domain/socket/interactors/room-join';
+import NewMessage from './domain/socket/interactors/new-message';
+import RoomDisconnect from './domain/socket/interactors/room-disconnect';
+import SocketController from './domain/socket/socket.controller';
+import RoomController from './domain/room/rooms.controller';
+import CreateRoomDataInteractor from './domain/room/interactors/createRoomData.interactor';
+import GetRoomDataInteractor from './domain/room/interactors/getRoomData.interactor';
 
 export default class Container {
   private instances = new Map();

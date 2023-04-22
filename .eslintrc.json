@@ -19,13 +19,6 @@
   "rules": {
     "no-unused-vars": "off",
     "require-jsdoc": 0,
-    "new-cap": 0,
-    "import/extensions": [
-      "error",
-      "always",
-      {
-        "js": "always"
-      }
-    ]
+    "new-cap": 0
   }
 }

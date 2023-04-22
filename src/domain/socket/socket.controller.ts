@@ -1,11 +1,11 @@
 import { Server, Socket } from 'socket.io';
-import IRoomJoinDTO from './dto/room-join.dto.js';
-import INewMessageDTO from './dto/new-messages.dto.js';
-import IRoomJoinInteractor from './interfaces/join.interface.js';
-import INewMessageInteractor from './interfaces/new-messages.interface.js';
-import IGetMessagesInteractor from './interfaces/get-messages.interface.js';
-import IRoomDisconnectInteractor from './interfaces/room-disconnect.interface.js';
-import IGetMessagesDTO from './dto/get-messages.dto.js';
+import IRoomJoinDTO from './dto/room-join.dto';
+import INewMessageDTO from './dto/new-messages.dto';
+import IRoomJoinInteractor from './interfaces/join.interface';
+import INewMessageInteractor from './interfaces/new-messages.interface';
+import IGetMessagesInteractor from './interfaces/get-messages.interface';
+import IRoomDisconnectInteractor from './interfaces/room-disconnect.interface';
+import IGetMessagesDTO from './dto/get-messages.dto';
 
 export default class SocketController {
   private roomJoin: IRoomJoinInteractor;

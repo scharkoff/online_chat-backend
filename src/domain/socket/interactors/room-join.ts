@@ -1,6 +1,6 @@
-import IRoomJoinInteractor from '../interfaces/join.interface.js';
-import IRoomJoinDTO from '../dto/room-join.dto.js';
-import rooms from '../../../domain/room/index.js';
+import IRoomJoinInteractor from '../interfaces/join.interface';
+import IRoomJoinDTO from '../dto/room-join.dto';
+import rooms from 'domain/room/index';
 
 export default class RoomJoin implements IRoomJoinInteractor {
   public join({ socket, roomId, userName }: IRoomJoinDTO): void {

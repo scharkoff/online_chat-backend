@@ -20,3 +20,4 @@ export default class CreateRoomDataInteractor {
         }
     }
 }
+//# sourceMappingURL=createRoomData.interactor.js.map

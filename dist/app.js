@@ -14,11 +14,7 @@ export class App {
                 methods: ['GET', 'POST']
             }
         });
-    }
-    useCORS() {
         this.app.use(cors());
-    }
-    useJSON() {
         this.app.use(express.json());
     }
     listen(port) {
@@ -38,3 +34,4 @@ export class App {
         return this.io;
     }
 }
+//# sourceMappingURL=app.js.map

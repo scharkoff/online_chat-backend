@@ -1,4 +1,4 @@
-import Rooms from './rooms.js';
+import Rooms from './rooms';
 
 const rooms = new Rooms().getRooms();
 

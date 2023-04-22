@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.ts",
-  "type": "module",
+  "type": "commonjs",
   "exports": "./dist/index.js",
   "scripts": {
     "build": "npx tsc",
@@ -37,6 +37,7 @@
     "eslint-plugin-import": "^2.27.5",
     "eslint-plugin-prettier": "^4.2.1",
     "esm": "^3.2.25",
+    "module-alias": "^2.2.2",
     "nodemon": "^2.0.22",
     "prettier": "^2.8.4",
     "ts-node": "^10.9.1",

@@ -10,3 +10,4 @@ export default class RoomController {
         return this.createRoomDataInteractor.createRoom(req, res);
     }
 }
+//# sourceMappingURL=rooms.controller.js.map

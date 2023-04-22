@@ -23,3 +23,4 @@ export default class SocketController {
         });
     }
 }
+//# sourceMappingURL=socket.controller.js.map

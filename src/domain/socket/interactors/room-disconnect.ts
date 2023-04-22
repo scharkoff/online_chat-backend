@@ -1,7 +1,7 @@
-import User from '../../../domain/user/interfaces/user.interface.js';
-import IRoomDisconnectInteractor from '../interfaces/room-disconnect.interface.js';
-import IRoomDisconnectDTO from '../dto/room-disconnect.dto.js';
-import rooms from '../../../domain/room/index.js';
+import User from 'domain/user/interfaces/user.interface';
+import IRoomDisconnectInteractor from '../interfaces/room-disconnect.interface';
+import IRoomDisconnectDTO from '../dto/room-disconnect.dto';
+import rooms from 'domain/room/index';
 
 export default class RoomDisconnect implements IRoomDisconnectInteractor {
   public disconnect({ socket }: IRoomDisconnectDTO): void {

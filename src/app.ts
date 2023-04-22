@@ -2,8 +2,8 @@ import express, { Router } from 'express';
 import { Server } from 'socket.io';
 import http from 'http';
 import cors from 'cors';
-import Container from './container.js';
-import SocketController from './domain/socket/socket.controller.js';
+import Container from './container';
+import SocketController from './domain/socket/socket.controller';
 
 export class App {
   private app = express();

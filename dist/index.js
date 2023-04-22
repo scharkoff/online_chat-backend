@@ -1,8 +1,7 @@
 import { App } from './app.js';
-import routes from './routes/index.js';
+import Routes from './routes/routes.js';
 export const app = new App();
-app.useCORS();
-app.useJSON();
 app.useSocket();
-app.useRoutes(routes);
+app.useRoutes(new Routes(app.getIo()).get());
 app.listen(4000);
+//# sourceMappingURL=index.js.map

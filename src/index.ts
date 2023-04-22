@@ -1,5 +1,5 @@
-import { App } from './app.js';
-import Routes from './routes/routes.js';
+import { App } from './app';
+import Routes from './routes/routes';
 
 export const app = new App();
 

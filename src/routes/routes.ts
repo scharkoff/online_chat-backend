@@ -1,8 +1,8 @@
 import { Router } from 'express';
 import { Server } from 'socket.io';
-import RoomsRouter from './rooms.router.js';
-import Container from '../container.js';
-import RoomController from '../domain/room/rooms.controller.js';
+import RoomsRouter from './rooms.router';
+import Container from '../container';
+import RoomController from 'domain/room/rooms.controller';
 
 export default class Routes {
   private io: Server;

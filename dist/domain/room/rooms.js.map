@@ -1,0 +1,1 @@
+{"version":3,"file":"rooms.js","sourceRoot":"","sources":["../../../src/domain/room/rooms.ts"],"names":[],"mappings":"AAEA,MAAM,CAAC,OAAO,OAAO,KAAK;IAA1B;QACU,UAAK,GAAsB,IAAI,GAAG,EAAE,CAAC;IAK/C,CAAC;IAHQ,QAAQ;QACb,OAAO,IAAI,CAAC,KAAK,CAAC;IACpB,CAAC;CACF"}

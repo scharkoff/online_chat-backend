@@ -20,3 +20,4 @@ export default class Container {
         return instance;
     }
 }
+//# sourceMappingURL=container.js.map
